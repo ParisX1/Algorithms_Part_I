@@ -1,0 +1,14 @@
+17. Q: My program is stuck.
+
+A: It is waiting for standard input. 
+The methods in StdIn require manually supplying the EOF(end of file) symbol at the end of input, 
+which is achieved with: 
+CTRL-Z 
+in Windows 
+
+CTRL/CMD-D 
+in Linux/Mac. 
+
+This holds true for input redirection in most modern IDEs run and debug configurations, including IntelliJ and Eclipse.
+
+https://www.coursera.org/learn/algorithms-part1/discussions/forums/ZMQXwSj1Eea7jBLLHPwd0w/threads/5G9HRPV0EemlYRLGbZc2cA
