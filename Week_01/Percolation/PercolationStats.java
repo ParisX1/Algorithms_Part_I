@@ -6,14 +6,26 @@
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats {
+    
+    private double resultsArray[];
+    private double pValue;
+    //private int iterationNum;
+    public double mean;
+    public double stdDev;
+    public double confLow;
+    public double confHigh;
+
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
+
         if (n < 1 || trials < 1)
             throw new IllegalArgumentException("Grid size and trials must be one or greater.");
+
+        resultsArray = new double[trials];
+        //iterationNum = 0;
 
         for (int i = 0; i < trials; i++){
             int randRow;
@@ -21,23 +33,29 @@ public class PercolationStats {
 
             Percolation testPercolation = new Percolation(n);
             while (!testPercolation.percolates()){
-                randRow = StdRandom.uniformInt(n+1);
-                randCol = StdRandom.uniformInt(n+1);
+                randRow = StdRandom.uniformInt(n) + 1;
+                randCol = StdRandom.uniformInt(n) + 1;
                 if (!testPercolation.isOpen(randRow, randCol)){
                     testPercolation.open(randRow, randCol);
                 }
             }
+            pValue = (double) testPercolation.numberOfOpenSites() / (n * n);
+            resultsArray[i] = pValue;
         }
+        mean = mean();
+        stdDev = stddev();
+        confLow = confidenceLo(mean, stdDev, trials);
+        confHigh = confidenceHi(mean, stdDev, trials);
     }
 
     // sample mean of percolation threshold
-    public double mean(int[] valuesArray) {
-        return StdStats.mean(valuesArray);
+    public double mean() {
+        return StdStats.mean(resultsArray);
     }
 
     // sample standard deviation of percolation threshold
-    public double stddev(int[] valuesArray) {
-        return StdStats.stddev(valuesArray);
+    public double stddev() {
+        return StdStats.stddev(resultsArray);
     }
 
     // low endpoint of 95% confidence interval
@@ -60,9 +78,17 @@ public class PercolationStats {
         to generate random numbers; use StdStats to compute the sample mean and sample
         standard deviation.
          */
+        int gridSize = 10;
+        int numTrials = 10000;
+        if(args.length > 0) {
+            gridSize = Integer.parseInt(args[0]);
+            numTrials = Integer.parseInt(args[1]);
+        }
 
-        PercolationStats trailStats = new PercolationStats(10, 100);
-        System.out.println("mean /t" + trailStats.)
+        PercolationStats trailStats = new PercolationStats(gridSize, numTrials);
+        System.out.println("mean \t\t\t\t = " + trailStats.mean);
+        System.out.println("stddev \t\t\t\t = " + trailStats.stdDev);
+        System.out.println("95% confidence interval \t = [" + trailStats.confLow + ", " + trailStats.confHigh + "]");
 
     }
 
