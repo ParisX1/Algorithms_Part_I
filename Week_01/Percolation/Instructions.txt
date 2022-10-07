@@ -4,7 +4,6 @@
 1.
 Consider not worrying about backwash for your first attempt. If you’re feeling overwhelmed, don’t worry about backwash when following the possible progress steps below. You can revise your implementation once you have a better handle on the problem and have solved the problem without handling backwash.
 
-
 2. 
 For each method in Percolation that you must implement (open(), percolates(), etc.), make a list of which WeightedQuickUnionUF methods might be useful for implementing that method. This should help solidify what you’re attempting to accomplish.
 
