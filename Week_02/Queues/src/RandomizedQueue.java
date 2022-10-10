@@ -4,8 +4,10 @@
  * a generic data type RandomizedQueue that implements the following API.
  */
 
-public class RandomizedQueue {
-// public class RandomizedQueue<Item> implements Iterable<Item>
+import java.util.Iterator;
+
+// public class RandomizedQueue {
+ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
