@@ -9,8 +9,11 @@
 // java.lang.IllegalArgumentException 
 // java.lang.UnsupportedOperationException,
 
+/*
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+
 
 // public class Deque {
 public class Deque<Item> implements Iterable<Item> {
@@ -136,7 +139,6 @@ public class Deque<Item> implements Iterable<Item> {
         }
         
         public void remove() { 
-            /* not supported */ 
             // Throw some error or message?
             throw new UnsupportedOperationException();
         }
@@ -156,3 +158,6 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
 }
+
+
+*/
