@@ -10,34 +10,28 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node first;
-    private Node last;
-    //private Item item;
+    private Node first; // First node in the linked-list
+    private Node last;  // Last node in the linked-list
     private int dequeSize;
     
 
     // construct an empty deque
     public Deque() {
-        //item = (Item) new Object();
         dequeSize = 0;
         first = null;
         last = null;
-        // first.item = null;
-        // first.next = null;
-        // last.item = null;
-        // last.next = null;
-
     }
 
     private class Node {
-        Item item;
-        Node next;
+        Item item; 
+        Node next;      // The next node in the linked-list (that this node links to)
+        Node previous;  // The node before in the linked-list (that is node links from)
         
         // construct a Node
         public Node() {
-            // item = (Item) new Object();
-            // item = null;
-            // next = null;
+            item = null;
+            next = null;
+            previous = null;
         }
     }
 
@@ -68,19 +62,9 @@ public class Deque<Item> implements Iterable<Item> {
             first = new Node();
             first.item = item;
             first.next = oldFirst;
+            oldFirst.previous = first;
         }
-
-        /*
-        else {
-            Node oldFirst = first;
-            first = new Node();
-            first.item = item;
-            first.next = oldFirst;
-            
-        }
-         */
         dequeSize++;
-        //displayItem(first);
     }
 
     // add the item to the back
@@ -94,9 +78,12 @@ public class Deque<Item> implements Iterable<Item> {
         last.item = item;
         last.next = null;
         
-        if (isEmpty())  first = last;
-        else            oldLast.next = last;
-        
+        if (isEmpty())  
+            first = last;
+        else {
+            oldLast.next = last;
+            last.previous = oldLast;
+        }            
         dequeSize++;
     }
 
@@ -106,8 +93,9 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
 
-        Item item = first.item;
+        Item item = first.item; // Item to return
         first = first.next;
+        first.previous = null;
         dequeSize--;
         return item;
     }
@@ -125,8 +113,12 @@ public class Deque<Item> implements Iterable<Item> {
         return item;
     }
 
-    private void displayItem(Node node){
-        System.out.println(first.item);
+    private Item getFirstItem(){
+        return first.item;
+    }
+
+    private Item getLastItem(){
+        return last.item;
     }
 
     // return an iterator over items in order from front to back
@@ -154,21 +146,39 @@ public class Deque<Item> implements Iterable<Item> {
                 currentIteratedNode = currentIteratedNode.next;
                 return returnItem; 
             }
+        }
     }
-}
 
     // unit testing (required)
     public static void main(String[] args) {
-        Deque<Integer> myDeque = new Deque<Integer>();
-        myDeque.addFirst(12);
-        myDeque.addFirst(9);
-        myDeque.addLast(11);
-        // System.out.println(myDeque);
-        // System.out.println(myDeque.first);
+        
+        Deque<Integer> myDeque0 = new Deque<Integer>();
+        myDeque0.addFirst(12);
+        myDeque0.removeLast();
+        System.out.println(myDeque0.getFirstItem());
 
-        Iterator<Integer> myIterator = myDeque.iterator();
+        /*
+        // First Test
+        Deque<Integer> myDeque1 = new Deque<Integer>();
+        myDeque1.addFirst(12);
+        myDeque1.addFirst(9);
+        myDeque1.addLast(11);
+        assert myDeque1.getFirstItem() == 9;
+        assert myDeque1.getLastItem() == 11;
+
+        // Second Test
+        Deque<Integer> myDeque2 = new Deque<Integer>();
+        myDeque2.addFirst(12);
+        myDeque2.removeLast();
+        assert myDeque2.getFirstItem() == null;
+        assert myDeque2 == null;
+        assert myDeque2.getLastItem() == null;
+
+        // Test: Printing with Iterator
+        //Deque<Integer> myDeque = new Deque<Integer>();
+        Iterator<Integer> myIterator = myDeque1.iterator();
         while (myIterator.hasNext())
             System.out.println(myIterator.next());
+         */
     }
-
 }
