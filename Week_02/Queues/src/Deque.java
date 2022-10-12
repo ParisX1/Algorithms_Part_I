@@ -8,27 +8,34 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque {
+public class Deque<Item> implements Iterable<Item> {
 
     private Node first = null;
     private Node last = null;
+    private Item item;
     private int dequeSize;
     
 
     // construct an empty deque
     public Deque() {
-
+        item = (Item) new Object;
+        dequeSize = 0;
+        first.item = null;
+        first.next = last;
+        last.item = null;
+        last.next = null;
     }
 
     private class Node {
-        Object item;
+        Item item;
         Node next;
         
         // construct a Node
         public Node() {
-
+            // item = (Item) new Object();
+            // item = null;
+            // next = null;
         }
-
     }
 
     // is the deque empty?
@@ -43,32 +50,44 @@ public class Deque {
 
     // add the item to the front
     public void addFirst(Item item) {
-        Node oldfirst = first;
+        Node oldFirst = first;
         first = new Node();
         first.item = item;
-        first.next = oldfirst;
+        first.next = oldFirst;
         dequeSize++;
     }
 
     // add the item to the back
     public void addLast(Item item) {
+        Node oldLast = last;
+        last = new Node();
+        last.item = item;
+        last.next = null;
         
+        if (isEmpty())  first = last;
+        else            oldLast.next = last;
+        
+        dequeSize++;
     }
 
     // remove and return the item from the front
     public Item removeFirst() {
-        Object item = first.item;
+        Item item = first.item;
         first = first.next;
-        return item;
         dequeSize--;
+        return item;
+        
     }
 
     // remove and return the item from the back
     public Item removeLast() {
-        Object item = last.item;
+        Item item = last.item;
         last = last.next;
-        return item;
+
+        if (isEmpty()) last = null;
+
         dequeSize--;
+        return item;
     }
 
     // return an iterator over items in order from front to back
