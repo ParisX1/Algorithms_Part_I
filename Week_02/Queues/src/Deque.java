@@ -93,7 +93,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
 
-        Item item = first.item; // Item to return
+        Item item = first.item; // Temp Item to return
         first = first.next;
         first.previous = null;
         dequeSize--;
@@ -106,9 +106,19 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
 
-        Item item = last.item;
-        last = last.next;
-        if (isEmpty()) last = null;
+        Item item = last.item; // Temp Item to return
+
+        if (last.previous == null){ // If only one item in list, reset to empty list
+            last = null;
+            first = null;
+        }
+        else {
+            last = last.previous;
+            last.next = null;
+        }
+
+        //if (isEmpty()) last = null;
+        
         dequeSize--;
         return item;
     }
@@ -120,6 +130,15 @@ public class Deque<Item> implements Iterable<Item> {
     private Item getLastItem(){
         return last.item;
     }
+
+    private Node getFirst(){
+        return first;
+    }
+
+    private Node getLast(){
+        return last;
+    }
+
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
@@ -152,33 +171,59 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         
-        Deque<Integer> myDeque0 = new Deque<Integer>();
-        myDeque0.addFirst(12);
-        myDeque0.removeLast();
-        System.out.println(myDeque0.getFirstItem());
+        String testPassMessage = new String();
 
-        /*
-        // First Test
+        // Test 1
+        // Test for adding and removing to create empty list
+        System.out.print("Test 1: ");
         Deque<Integer> myDeque1 = new Deque<Integer>();
         myDeque1.addFirst(12);
-        myDeque1.addFirst(9);
-        myDeque1.addLast(11);
-        assert myDeque1.getFirstItem() == 9;
-        assert myDeque1.getLastItem() == 11;
+        myDeque1.removeLast();
+        if (myDeque1.getFirst() == null)
+            testPassMessage = "Pass";
+        else testPassMessage = "Fail";
+        System.out.println(testPassMessage);
 
-        // Second Test
+        
+        // Test 2
+        // Add to front and back, check order is correct and size is correct
+        System.out.print("Test 2: ");
         Deque<Integer> myDeque2 = new Deque<Integer>();
         myDeque2.addFirst(12);
-        myDeque2.removeLast();
-        assert myDeque2.getFirstItem() == null;
-        assert myDeque2 == null;
-        assert myDeque2.getLastItem() == null;
+        myDeque2.addFirst(9);
+        myDeque2.addLast(11);
+        testPassMessage = "Pass";
+        if( myDeque2.getFirstItem() != 9) testPassMessage = "Fail";
+        if( myDeque2.getLastItem() != 11) testPassMessage = "Fail";
+        if( myDeque2.size() != 3) testPassMessage = "Fail";
+        System.out.println(testPassMessage);
 
-        // Test: Printing with Iterator
-        //Deque<Integer> myDeque = new Deque<Integer>();
-        Iterator<Integer> myIterator = myDeque1.iterator();
+        
+        // Test 3
+        System.out.print("Test 3: ");
+        Deque<Integer> myDeque3 = new Deque<Integer>();
+        myDeque3.addFirst(1);
+        myDeque3.addFirst(2);
+        myDeque3.addLast(3);
+        myDeque3.addFirst(4);
+        myDeque3.removeLast();
+        myDeque3.removeFirst();
+        myDeque3.addFirst(5);
+        myDeque3.addLast(6);
+        myDeque3.addFirst(7);
+        myDeque3.removeLast();
+        testPassMessage = "Pass";
+        if( myDeque3.getFirstItem() != 7) testPassMessage = "Fail";
+        if( myDeque3.getLastItem() != 1) testPassMessage = "Fail";
+        if( myDeque3.size() != 4) testPassMessage = "Fail";
+        System.out.println(testPassMessage);
+        
+        // Test 4: Printing with Iterator
+        System.out.println("Test 4: ");
+        System.out.print("Actual: \t");
+        Iterator<Integer> myIterator = myDeque3.iterator();
         while (myIterator.hasNext())
-            System.out.println(myIterator.next());
-         */
+            System.out.print(myIterator.next() + " ");
+            System.out.println("\nExpected: \t7 5 2 1");
     }
 }
