@@ -1,0 +1,2 @@
+javac-algs4 Permutation.java
+java-algs4 Permutation 3 < testFiles/distinct.txt

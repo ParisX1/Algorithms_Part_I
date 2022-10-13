@@ -30,15 +30,6 @@ import java.util.NoSuchElementException;
 
     // return the number of items on the randomized queue
     public int size() {
-        /*
-        int i = 0;
-        int count = 0;
-        while (i < queueCapacity){
-            if (randomQueue[i] != null)
-                count++;
-            i++;
-        }
-        */
         return queueObjectCount;
     }
 
@@ -189,10 +180,5 @@ import java.util.NoSuchElementException;
 }
 
 /* TO DO
- * DONE dequeue and sample at the moment are not random
- * Check queue can be resized - smaller and larger
  * New queue.  Add items.  Remove to zero and then re-add
- * When resizing, does the iterator still work
- * Test deque vs sample
- * Maybe test with strings - this is what the tester does (Test premutation with this..)
  */

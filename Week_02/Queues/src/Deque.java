@@ -117,8 +117,6 @@ public class Deque<Item> implements Iterable<Item> {
             last.next = null;
         }
 
-        //if (isEmpty()) last = null;
-        
         dequeSize--;
         return item;
     }
@@ -138,7 +136,6 @@ public class Deque<Item> implements Iterable<Item> {
     private Node getLast(){
         return last;
     }
-
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
