@@ -12,7 +12,7 @@ public class Permutation {
     
     public static void main(String[] args) {
 
-        int k = Integer.valueOf(args[0]);
+        int k = Integer.parseInt(args[0]);
         RandomizedQueue<String> myRandomQueue = new RandomizedQueue<String>();
 
         // Read input and add to queue

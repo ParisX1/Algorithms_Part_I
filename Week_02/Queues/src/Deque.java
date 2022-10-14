@@ -94,8 +94,16 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
 
         Item item = first.item; // Temp Item to return
-        first = first.next;
-        first.previous = null;
+        
+        if (first.next == null) { // If only one item in list, reset to empty list
+            last = null;
+            first = null;
+        }
+        else {
+            first = first.next;
+            first.previous = null;
+        }
+        
         dequeSize--;
         return item;
     }
@@ -108,7 +116,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         Item item = last.item; // Temp Item to return
 
-        if (last.previous == null){ // If only one item in list, reset to empty list
+        if (last.previous == null) { // If only one item in list, reset to empty list
             last = null;
             first = null;
         }
@@ -121,20 +129,16 @@ public class Deque<Item> implements Iterable<Item> {
         return item;
     }
 
-    private Item getFirstItem(){
+    private Item getFirstItem() {
         return first.item;
     }
 
-    private Item getLastItem(){
+    private Item getLastItem() {
         return last.item;
     }
 
-    private Node getFirst(){
+    private Node getFirst() {
         return first;
-    }
-
-    private Node getLast(){
-        return last;
     }
 
     // return an iterator over items in order from front to back
@@ -155,7 +159,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         
         public Item next() { 
-            if ( !hasNext() )
+            if (!hasNext())
                 throw new NoSuchElementException();
             else {
                 Item returnItem = currentIteratedNode.item;
@@ -168,15 +172,27 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         
-        String testPassMessage = new String();
+        String testPassMessage = "";
 
-        // Test 1
+        // Test 1a
         // Test for adding and removing to create empty list
-        System.out.print("Test 1: ");
+        System.out.print("Test 1a: ");
         Deque<Integer> myDeque1 = new Deque<Integer>();
         myDeque1.addFirst(12);
         myDeque1.removeLast();
         if (myDeque1.getFirst() == null)
+            testPassMessage = "Pass";
+        else testPassMessage = "Fail";
+        System.out.println(testPassMessage);
+
+        // Test 1b
+        // Test for adding and removing to create empty list
+        System.out.print("Test 1b: ");
+        // Deque<Integer> myDeque1 = new Deque<Integer>();
+        myDeque1.addFirst(1);
+        myDeque1.addLast(2);
+        myDeque1.removeLast();
+        if (myDeque1.size() == 1)
             testPassMessage = "Pass";
         else testPassMessage = "Fail";
         System.out.println(testPassMessage);
@@ -190,9 +206,9 @@ public class Deque<Item> implements Iterable<Item> {
         myDeque2.addFirst(9);
         myDeque2.addLast(11);
         testPassMessage = "Pass";
-        if( myDeque2.getFirstItem() != 9) testPassMessage = "Fail";
-        if( myDeque2.getLastItem() != 11) testPassMessage = "Fail";
-        if( myDeque2.size() != 3) testPassMessage = "Fail";
+        if (myDeque2.getFirstItem() != 9) testPassMessage = "Fail";
+        if (myDeque2.getLastItem() != 11) testPassMessage = "Fail";
+        if (myDeque2.size() != 3) testPassMessage = "Fail";
         System.out.println(testPassMessage);
 
         
@@ -210,9 +226,9 @@ public class Deque<Item> implements Iterable<Item> {
         myDeque3.addFirst(7);
         myDeque3.removeLast();
         testPassMessage = "Pass";
-        if( myDeque3.getFirstItem() != 7) testPassMessage = "Fail";
-        if( myDeque3.getLastItem() != 1) testPassMessage = "Fail";
-        if( myDeque3.size() != 4) testPassMessage = "Fail";
+        if (myDeque3.getFirstItem() != 7) testPassMessage = "Fail";
+        if (myDeque3.getLastItem() != 1) testPassMessage = "Fail";
+        if (myDeque3.size() != 4) testPassMessage = "Fail";
         System.out.println(testPassMessage);
         
         // Test 4: Printing with Iterator

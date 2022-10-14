@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] randomQueue;
-    private final int INIT_CAPACITY = 8;
+    private final static int INIT_CAPACITY = 8;
     private int queueCapacity;
     private int queueObjectCount;
 
@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
         return queueObjectCount;
     }
 
-    private int capacity(){
+    private int capacity() {
         return queueCapacity;
     }
 
@@ -62,7 +62,7 @@ import java.util.NoSuchElementException;
         return returnItem;
     }
 
-    private int getRandomIndex(int rangeMax){
+    private int getRandomIndex(int rangeMax) {
         return StdRandom.uniformInt(rangeMax);
     }
 
@@ -76,16 +76,16 @@ import java.util.NoSuchElementException;
         return returnItem;
     }
 
-    private void checkForResize(){
+    private void checkForResize() {
         if (queueObjectCount == (queueCapacity / 4))    resizeDeque(queueCapacity / 2);
         else if (queueObjectCount == queueCapacity)     resizeDeque(queueCapacity * 2);
     }
 
-    private void resizeDeque(int newCapacity){
+    private void resizeDeque(int newCapacity) {
         Item[] dequeCopy = (Item[]) new Object[newCapacity];
         int j = 0;
-        for (int i = 0; i < queueCapacity; i++){
-            if (randomQueue[i] != null){
+        for (int i = 0; i < queueCapacity; i++) {
+            if (randomQueue[i] != null) {
                 dequeCopy[j] = randomQueue[i];
                 j++;
             }
@@ -101,11 +101,11 @@ import java.util.NoSuchElementException;
 
     private class RandomArrayIterator implements Iterator<Item> {
         
-        private int randomIndicies[];   // Hold unique random index positions
+        private int[] randomIndicies;   // Hold unique random index positions
         private int indexPosition;      // Track position in randomIndicies
         private int indexValue;         // Value at randomIndicies[i]
 
-        RandomArrayIterator(){
+        RandomArrayIterator() {
             indexPosition = 0;
             indexValue = 0;
             randomIndicies = new int[queueObjectCount];
