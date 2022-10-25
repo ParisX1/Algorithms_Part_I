@@ -5,7 +5,6 @@
  *  
  *  An immutable data type for points in the plane.
  *  For use on Coursera, Algorithms Part I programming assignment.
- *
  ******************************************************************************/
 
 import java.util.Comparator;
@@ -39,7 +38,6 @@ public class Point implements Comparable<Point> {
     /**
      * Draws the line segment between this point and the specified point
      * to standard draw.
-     *
      * @param that the other point
      */
     public void drawTo(Point that) {
@@ -59,7 +57,9 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        /* YOUR CODE HERE */
+        if ((this.y == that.y) && (this.x == that.x))       return Double.NEGATIVE_INFINITY;
+        if (this.x == that.x)                               return Double.POSITIVE_INFINITY;
+        else                                                return (that.y - this.y) / (that.x - this.x);
     }
 
     /**
@@ -75,8 +75,14 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        if ((this.y == that.y) && (this.x <= that.x))   return  0;
+        if (this.y > that.y)                            return  1;
+        else                                            return -1;
     }
+
+
+    // private void fancySort(){
+    // }
 
     /**
      * Compares two points by the slope they make with this point.
@@ -85,15 +91,45 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+        /* Method slopeOrder() should return object of a class which 
+        implements Comparator interface. The interface assumes that this 
+        class has method compare(T o1, T o2) with two arguments. 
+        - Said some guy on the forums*/
+        return new SlopeOrder();
     }
 
+    private class SlopeOrder implements Comparator<Point> {
+        public int compare(Point p1, Point p2) {
+            
+            double slope1 = slopeTo(p1);
+            double slope2 = slopeTo(p2);
+
+            if (slope1 == slope2)   return  0;
+            if (slope1 > slope2)    return  1;
+            else                    return -1;
+
+            /*
+            double dx1 = q1.x - x;
+            double dy1 = q1.y - y;
+            double dx2 = q2.x - x;
+            double dy2 = q2.y - y;
+
+            if      (dy1 >= 0 && dy2 < 0) return -1;    // q1 above; q2 below
+            else if (dy2 >= 0 && dy1 < 0) return +1;    // q1 below; q2 above
+            else if (dy1 == 0 && dy2 == 0) {            // 3-collinear and horizontal
+                if      (dx1 >= 0 && dx2 < 0) return -1;
+                else if (dx2 >= 0 && dx1 < 0) return +1;
+                else                          return  0;
+            }
+            else return -ccw(Point2D.this, q1, q2);     // both above or below
+             */
+            }
+    }
 
     /**
      * Returns a string representation of this point.
      * This method is provide for debugging;
      * your program should not rely on the format of the string representation.
-     *
      * @return a string representation of this point
      */
     public String toString() {
